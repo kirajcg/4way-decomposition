@@ -30,5 +30,5 @@ This project is licensed under GNU GPL v3.
 If you have any questions/suggestions/comments or problems do not hesitate to contact us: u.mutlu@erasmusmc.nl, g.roshchupkin@erasmusmc.nl
 
 ## Fork info
-This fork includes weights in the 4-way mediation analysis and was edited by Kira Coder Gylling (Örebro University, Sweden). 
+This fork includes weights in the 4-way decomposition and was edited by Kira Coder Gylling (Örebro University, Sweden). 
 Please direct questions that are specifically about this fork to kira.coder-gylling@oru.se
