@@ -1,6 +1,6 @@
 
 ###  Statistics  ########################################
-get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,M=NULL,O=NULL){
+get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M=NULL,O=NULL){
   
   
   # Pick only the covariates
@@ -13,7 +13,7 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,M=NULL,O
   
   if(M==1){
   
-    outm.fit<-glm(as.formula(form_M), family=binomial(link=logit), data = data) 
+    outm.fit<-glm(as.formula(form_M), family=binomial(link=logit), data = data, weights=weight) 
     ssm<-NULL  
   }
   
@@ -31,11 +31,11 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,M=NULL,O
   #browser()
   form_Y <- paste( outcome, "~", exposure, "+", mediator, "+", interactionterm, "+", paste(covar, collapse = " + "))
   if(O==1){
-    outy.fit<-glm(as.formula(form_Y), family=binomial(link=logit), data = data)
+    outy.fit<-glm(as.formula(form_Y), family=binomial(link=logit), data = data, weights=weight)
   
   }
   if(O==0){
-    outy.fit<-glm(as.formula(form_Y), family=gaussian(link=identity), data = data)
+    outy.fit<-glm(as.formula(form_Y), family=gaussian(link=identity), data = data, weights=weight)
     
   }
   
@@ -58,12 +58,13 @@ boot.bMbO<- function(data, indices)
   exposure<- A
   mediator<- M
   covar<-COVAR
+  weight<-W
  
   interactionterm<- paste(mediator,exposure,sep='*')
   
   data<-data[indices, ]     
   
-  statistics<-get_stat(data,covar,mediator,exposure,interactionterm,outcome,M=1,O=1)
+  statistics<-get_stat(data,covar,mediator,exposure,interactionterm,outcome,weight,M=1,O=1)
    
   bcc<-statistics[1]
   b0<-statistics[2]
@@ -143,10 +144,11 @@ boot.cMcO<- function(data, indices)
   exposure<- A
   mediator<- M
   covar<-COVAR
+  weight<-W
   interactionterm<- paste(mediator,exposure,sep='*')
   
   
-  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome,M=0,O=0)
+  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome,weight,M=0,O=0)
   
   bcc<-statistics[1]
   b0<-statistics[2]
@@ -181,11 +183,12 @@ boot.cMbO<- function(data, indices)
   exposure<- A
   mediator<- M
   covar<-COVAR
+  weight<-W
   
   interactionterm<- paste(mediator,exposure,sep='*')
   
   
-  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome,M=0,O=1)
+  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome,weight,M=0,O=1)
   
   bcc<-statistics[1]
   b0<-statistics[2]
@@ -253,10 +256,11 @@ boot.bMcO <- function(data, indices)
   exposure<- A
   mediator<- M
   covar<-COVAR
+  weight<-W
   interactionterm<- paste(mediator,exposure,sep='*')
   
   
-  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome ,M=1,O=0)
+  statistics<-get_stat(data,covar,mediator,exposure,interactionterm, outcome ,weight,M=1,O=0)
   
   bcc<-statistics[1]
   b0<-statistics[2]
