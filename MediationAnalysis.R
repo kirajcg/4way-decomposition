@@ -6,7 +6,6 @@ library(data.table)
 library(foreign)
 library(dummies)
 library(GenABEL)
-library(dummies)
 #---------------------------------------------------------------------------------------------------------------------
 # Sources import here
 
@@ -16,10 +15,10 @@ source('src.R')
 # Define your parameters here!!!
 
 #Data pathway
-data_path<-"//storage.erasmusmc.nl/m/MyDocs/592004/My Documents/Desktop/Rscript4way/Test.sav"
+data_path<-"path/to/data.sav"
 
 #Path to save results
-output<-'//storage.erasmusmc.nl/m/MyDocs/592004/My Documents/Desktop/Rscript4way/Test_results.csv'
+output<-'path/to/results.csv'
 
   
 #Define variables
@@ -53,13 +52,9 @@ N_r=5
 data<-read.spss(data_path, to.data.frame=T) #TODO spss/csv/txt (?)
 
 
-if (! prod(c(A,Y,M,COVAR) %in% names(data) ) )  {stop('Some of defined variable names are not in data file!')}
+if (! prod(c(A,Y,M,COVAR,W) %in% names(data) ) )  {stop('Some of defined variable names are not in data file!')}
 
 if ( mediator==1 & outcome==1 ) {  save_results(output=output, boot_function=boot.bMbO, N=N_r)  }
 if ( mediator==0 & outcome==1 ) {  save_results(output=output, boot_function=boot.cMbO, N=N_r)  }
 if ( mediator==1 & outcome==0 ) {  save_results(output=output, boot_function=boot.bMcO, N=N_r)  }
 if ( mediator==0 & outcome==0 ) {  save_results(output=output, boot_function=boot.cMcO, N=N_r)  }
-
-
-
-
