@@ -18,7 +18,7 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M
   }
   
   if(M==0){
-    outm.fit<-lm(as.formula(form_M), data = data)
+    outm.fit<-lm(as.formula(form_M), data = data, weights=weight)
     ssm<-(summary(outm.fit)$sigma)**2
   }
   
