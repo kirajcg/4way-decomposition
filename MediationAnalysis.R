@@ -5,7 +5,6 @@ library(survival)
 library(data.table)
 library(foreign)
 library(dummies)
-library(GenABEL)
 #---------------------------------------------------------------------------------------------------------------------
 # Sources import here
 
@@ -41,7 +40,7 @@ astar<<-0
 mstar<<-0 
 
 #Boostrap number of iterations
-N_r=5
+N_r=1000
 
 #---------------------------------------------------------------------------------------------------------------------
 ####### DONT TOUCH FROM HERE
