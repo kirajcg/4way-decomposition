@@ -14,7 +14,7 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M
   if(M==1){
   
     outm.fit<-glm(as.formula(form_M), family=binomial(link="logit"), data = data, weights=eval(parse(text=weight)),
-                 mustart=rep(0.5, nrow(data))
+                 mustart=rep(0.5, nrow(data)))
     ssm<-NULL  
   }
   
@@ -33,7 +33,7 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M
   form_Y <- paste( outcome, "~", exposure, "+", mediator, "+", interactionterm, "+", paste(covar, collapse = " + "))
   if(O==1){
     outy.fit<-glm(as.formula(form_Y), family=binomial(link="logit"), data = data, weights=eval(parse(text=weight)),
-                 mustart=rep(0.5, nrow(data))
+                 mustart=rep(0.5, nrow(data)))
   
   }
   if(O==0){
