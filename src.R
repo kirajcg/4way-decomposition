@@ -12,15 +12,15 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M
   form_M <- paste(mediator, "~", exposure, "+", paste(covar, collapse = " + "))
   
   if(M==1){
-  
-    outm.fit<-glm(as.formula(form_M), family=binomial(link="logit"), data = data, weights=eval(parse(text=weight)),
-                 mustart=rep(0.5, nrow(data)))
+    outm.des <- svydesign(ids=~1, data=data, weights=~eval(parse(text=weight)))
+    outm.fit <- svyglm(as.formula(form_M), design=outm.des, family=binomial)
     ssm<-NULL  
   }
   
   if(M==0){
-    outm.fit<-lm(as.formula(form_M), data = data, weights=eval(parse(text=weight)))
-    ssm<-(summary(outm.fit)$sigma)**2
+    outm.des <- svydesign(ids=~1, data=data, weights=~eval(parse(text=weight)))
+    outm.fit <- svyglm(as.formula(form_M), design=outm.des, family=gaussian)
+    ssm<-(sigma(outm.fit))**2
   }
   
   bcv<-sapply(covar, function(x) coef(summary(outm.fit))[x,"Estimate"])
@@ -32,13 +32,12 @@ get_stat<-function(data,covar,mediator,exposure,interactionterm,outcome,weight,M
   #browser()
   form_Y <- paste( outcome, "~", exposure, "+", mediator, "+", interactionterm, "+", paste(covar, collapse = " + "))
   if(O==1){
-    outy.fit<-glm(as.formula(form_Y), family=binomial(link="logit"), data = data, weights=eval(parse(text=weight)),
-                 mustart=rep(0.5, nrow(data)))
-  
+    outy.des <- svydesign(ids=~1, data=data, weights=~eval(parse(text=weight)))
+    outy.fit<-svyglm(as.formula(form_Y), design=outy.des, family=binomial)
   }
   if(O==0){
-    outy.fit<-lm(as.formula(form_Y), data = data, weights=eval(parse(text=weight)))
-    
+    outy.des <- svydesign(ids=~1, data=data, weights=~eval(parse(text=weight)))
+    outy.fit<-svyglm(as.formula(form_Y), design=outy.des, family=gaussian)
   }
   
   
