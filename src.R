@@ -209,19 +209,19 @@ boot.cMbO<- function(data, indices)
   cde_comp4<-t2*mstar + t3*astar*mstar
   cde_comp5<-(t2 + t3*astar)*(b0 + b1*astar + bcc)
   cde_comp6<-0.5*(t2 + t3*astar)*(t2 + t3*astar)*ssm
-  cde_comp<-exp(cde_comp1 - cde_comp2 - cde_comp3) - exp(cde_comp4 - cde_comp5 - cde_comp6)
+  cde_comp<-exp((cde_comp1 - cde_comp2 - cde_comp3) / (cde_comp4 - cde_comp5 - cde_comp6))
   
   
   
   intref_comp1<-(t1 + t3*(b0 + b1*astar + bcc + t2*ssm)*(a - astar)) + (0.5*(t3*t3)*ssm*((a*a)-(astar*astar)))
   intref_comp2<-(t1*(a - astar) + t2*mstar + t3*a*mstar) - ((t2 + t3*astar)*(b0 + b1*astar + bcc)) - (0.5*(t2 + t3*astar)*(t2 + t3*astar)*ssm)
   intref_comp3<-(t2*mstar + t3*astar*mstar) - ((t2 + t3*astar)*(b0 + b1*astar + bcc)) - (0.5*(t2 + t3*astar)*(t2 + t3*astar)*ssm)
-  intref_comp<-exp(intref_comp1) - 1  - exp(intref_comp2) + exp(intref_comp3)
+  intref_comp<-exp(intref_comp1 * intref_comp3 / intref_comp2) - 1
   
   intmed_comp1<-(t1 + t2*b1 + t3*(b0 + b1*astar + b1*a + bcc + t2*ssm))*(a - astar) + (0.5*(t3*t3)*ssm*((a*a)-(astar*astar)))
   intmed_comp2<-(t2*b1 + t3*b1*astar)*(a - astar)
   intmed_comp3<-(t1 + t3*(b0 + b1*astar + bcc + t2*ssm))*(a - astar) + (0.5*(t3*t3)*ssm*((a*a)-(astar*astar)))
-  intmed_comp<-exp(intmed_comp1) - exp(intmed_comp2) - exp(intmed_comp3) + 1
+  intmed_comp<-exp(intmed_comp1 / (intmed_comp2 * intmed_comp3)) + 1
   
   pie_comp<-exp(((t2*b1 + t3*b1*astar)*(a - astar))) - 1
   
